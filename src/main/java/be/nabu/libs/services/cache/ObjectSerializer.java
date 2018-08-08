@@ -11,7 +11,16 @@ import be.nabu.libs.types.api.WrappedComplexContent;
 
 public class ObjectSerializer implements DataSerializer<Object> {
 
-	private ComplexContentSerializer complexContentSerializer = new ComplexContentSerializer();
+	@SuppressWarnings("rawtypes")
+	private DataSerializer complexContentSerializer;
+	
+	@SuppressWarnings("rawtypes")
+	public ObjectSerializer(DataSerializer serializer) {
+		this.complexContentSerializer = serializer;
+	}
+	public ObjectSerializer() {
+		this(new ComplexContentSerializer());
+	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -25,7 +34,7 @@ public class ObjectSerializer implements DataSerializer<Object> {
 
 	@Override
 	public Object deserialize(InputStream input) throws IOException {
-		ComplexContent deserialize = complexContentSerializer.deserialize(input);
+		ComplexContent deserialize = (ComplexContent) complexContentSerializer.deserialize(input);
 		if (deserialize instanceof WrappedComplexContent) {
 			return ((WrappedComplexContent<?>) deserialize).getUnwrapped();
 		}
