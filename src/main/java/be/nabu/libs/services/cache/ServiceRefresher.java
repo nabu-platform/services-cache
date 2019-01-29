@@ -28,7 +28,8 @@ public class ServiceRefresher implements CacheRefresher {
 	
 	@Override
 	public Object refresh(Object key) throws IOException {
-		if (key instanceof ComplexContent) {
+		// allow runs with no input
+		if (key instanceof ComplexContent || key == null) {
 			ServiceRuntime runtime = new ServiceRuntime(service, contextProvider.newExecutionContext(token));
 			// disable caching for the refresh
 			runtime.setAllowCaching(false);
