@@ -19,10 +19,12 @@ public class ComplexContentSerializer implements DataSerializer<ComplexContent> 
 	
 	public ComplexContentSerializer(ComplexType type) {
 		this.binding = new XMLBinding(type, Charset.forName("UTF-8"));
+		this.binding.setAllowRootNull(false);
 	}
 	
 	public ComplexContentSerializer() {
 		this.binding = new XMLBinding((ComplexType) BeanResolver.getInstance().resolve(Object.class), Charset.forName("UTF-8"));
+		this.binding.setAllowRootNull(false);
 	}
 	
 	@Override
